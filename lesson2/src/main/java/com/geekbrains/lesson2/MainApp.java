@@ -12,7 +12,9 @@ public class MainApp {
     public static void main(String[] args) {
         Obstacle[] obstacles = {
                 new Wall(50),
+                new Wall(200),
                 new Treadmill(170),
+                new Treadmill(300),
         };
 
         Contestant[] contestants = {
@@ -21,9 +23,9 @@ public class MainApp {
                 new Human(),
         };
 
-        for (Obstacle o: obstacles) {
-            for(Contestant c: contestants) {
-                if(!o.contest(c)) break;
+        for (Contestant c : contestants) {
+            for (Obstacle o : obstacles) {
+                if (!o.contest(c)) break;
             }
         }
     }
