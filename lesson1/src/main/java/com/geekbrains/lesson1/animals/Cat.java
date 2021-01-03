@@ -1,18 +1,10 @@
 package com.geekbrains.lesson1.animals;
 
 public class Cat extends Animal {
+    public static int count;
 
-    @Override
-    public void swim(int m) {
-        System.out.println("Cat can't swim");
-    }
-
-    @Override
-    public void run(int m) {
-        if (m <= 200) {
-            System.out.println("Cat ran " + m + " m.");
-        } else {
-            System.out.println("Cat can't run this distance");
-        }
+    public Cat(String name, int maxRunDistance) {
+        super("Cat", name, maxRunDistance, 0);
+        count++;
     }
 }
