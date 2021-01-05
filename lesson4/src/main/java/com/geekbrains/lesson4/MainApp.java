@@ -26,6 +26,9 @@ public class MainApp {
         appleBox.moveToAnotherBox(fruitBox);
         appleBox.moveToAnotherBox(appleBox2);
 
+        orangeBox.add(new Orange());
+        orangeBox.add(new Orange(), new Orange(), new Orange());
+
         System.out.println(orangeBox.getWeight());
     }
 
