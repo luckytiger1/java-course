@@ -1,9 +1,7 @@
 package com.geekbrains.lesson5;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 public class MainApp {
     public static void main(String[] args) {
