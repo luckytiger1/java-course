@@ -8,8 +8,7 @@ import java.util.Set;
 public class MainApp {
     public static void main(String[] args) {
         String[] strArr = {"cat", "dog", "tiger", "table", "table", "cat", "cat", "bird", "elephant", "eagle"};
-        showUnique(strArr);
-        countValue(strArr);
+        countValueAndShowUnique(strArr);
 
         HashMap<String, HashSet<String>> hm = new HashMap<>();
         HashSet<String> phones = new HashSet<>();
@@ -25,16 +24,12 @@ public class MainApp {
         System.out.println(pb.get("Fowler"));
     }
 
-    public static void showUnique(String[] arr) {
-        Set<String> unique = new HashSet<>(Arrays.asList(arr));
-        System.out.println(unique);
-    }
-
-    public static void countValue(String[] arr) {
+    public static void countValueAndShowUnique(String[] arr) {
         HashMap<String, Integer> hm = new HashMap<>();
         for (String s : arr) {
             hm.put(s, hm.getOrDefault(s,0) + 1);
         }
         System.out.println(hm);
+        System.out.println(hm.keySet());
     }
 }
