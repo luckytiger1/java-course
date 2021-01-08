@@ -2,10 +2,11 @@ package com.geekbrains.lesson7;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Car implements Runnable {
     private static int CARS_COUNT;
+    private static AtomicInteger ai;
 
     static {
         CARS_COUNT = 0;
@@ -17,7 +18,6 @@ public class Car implements Runnable {
     private final CountDownLatch latch;
     private final CountDownLatch latch2;
     private final CyclicBarrier cb;
-    private final Semaphore smp;
 
     public String getName() {
         return name;
@@ -27,15 +27,15 @@ public class Car implements Runnable {
         return speed;
     }
 
-    public Car(Race race, int speed, CountDownLatch latch, CyclicBarrier cb, Semaphore smp, CountDownLatch latch2) {
+    public Car(Race race, int speed, CountDownLatch latch, CyclicBarrier cb, CountDownLatch latch2) {
         this.race = race;
         this.speed = speed;
         CARS_COUNT++;
         this.name = "Участник #" + CARS_COUNT;
         this.latch = latch;
         this.cb = cb;
-        this.smp = smp;
         this.latch2 = latch2;
+        ai = new AtomicInteger(0);
     }
 
     @Override
@@ -53,20 +53,10 @@ public class Car implements Runnable {
 
 
         for (int i = 0; i < race.getStages().size(); i++) {
-            if (race.getStages().get(i).getClass().equals(Tunnel.class)) {
-                try {
-                    smp.acquire();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
             race.getStages().get(i).go(this);
-            if(i == race.getStages().size() - 1 && latch2.getCount() == CARS_COUNT) {
-                System.out.println(this.getName() + " - WIN!");
-            }
-            if (race.getStages().get(i).getClass().equals(Tunnel.class)) {
-                smp.release();
-            }
+        }
+        if (ai.incrementAndGet() == 1) {
+            System.out.println(this.getName() + " - WIN!");
         }
         latch2.countDown();
     }
