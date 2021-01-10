@@ -1,13 +1,17 @@
 package com.geekbrains.lesson8;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class MainApp {
     public static void main(String[] args) {
         List<String> strList = new ArrayList<>(Arrays.asList("cat", "dog", "horse", "table", "dog", "cat", "dog"));
-        Map<String, Long> counts = strList.stream()
-                .collect(Collectors.groupingBy(w -> w, Collectors.counting()));
+        String counts = strList.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .max(Comparator.comparingLong(Map.Entry::getValue))
+                .get().getKey();
 
         System.out.println(counts);
 
@@ -22,7 +26,14 @@ public class MainApp {
                 .map(Employee::getSalary)
                 .reduce(0, Integer::sum) / empList.size();
 
+        double avgSalary2 = empList.stream()
+                .mapToDouble(Employee::getSalary)
+                .average()
+                .orElse(0);
+
+
         System.out.println(avgSalary);
+        System.out.println(avgSalary2);
 
         printOldest(empList, 3);
     }
